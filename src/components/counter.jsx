@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Fragment } from 'react';
 
 class Counter extends React.Component {
-    state = {
-        count: 1,
-        tags: ['tag1', 'tag2', 'tag3']
-        // imageUrl: 'https://picsum.photos/200'
-    };
+    // state = {
+    //     value: this.props.counter.value,
+    //     tags: ['tag1', 'tag2', 'tag3'],
+    //     imageUrl: 'https://picsum.photos/200'
+    // };
 
     styles = {
         fontSize: 10,
@@ -27,11 +27,11 @@ class Counter extends React.Component {
         return <ul>{this.state.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>; 
     }
 
-    handleIncrement = (product) => {
-        console.log(product);
+    handleIncrement = () => {
+        // console.log(product);
         console.log("button Cliked");
         // this.state.count ++;
-        this.setState({count: this.state.count + 1});
+        this.setState({value: this.state.value + 1});
     };
 
     doHandlerIncrement = () => {
@@ -39,16 +39,20 @@ class Counter extends React.Component {
     };
 
     render() { 
+        console.log("Props", this.props);
 
         return (
             <div>
+                {this.props.children}
                 {/* <img src={this.state.imageUrl} alt="" /> */}
                 {/* <span style={this.styles} className="badge badge-primary m-2">{this.formatCounter()}</span> */}
-                 {/* {this.state.tags.length === 0 && 'Please create a new tag! '} */}
-
+                {/* {this.state.tags.length === 0 && 'Please create a new tag! '} */}
+                {/* <button onClick={this.handleIncrement} className="btn btn-secondary btn-sm">Increment</button>  */}
                 <span className={this.getBadgeClasses()}>{this.formatCounter()}</span>
-                <button onClick={() => this.handleIncrement({id: 1})} className="btn btn-secondary btn-sm">Increment</button> 
-                {this.renderTags()}
+                <button onClick={() => this.props.onIncrement(this.props.counter)} className="btn btn-secondary btn-sm">Increment</button> 
+                <button onClick={() => this.props.onDelete(this.props.counter.id)} className="btn btn-danger btn-sm m-3"> Delete </button>
+                {/* <button onClick={() => this.handleIncrement({id: 1})} className="btn btn-secondary btn-sm">Increment</button>  */}
+                {/* {this.renderTags()} */}
                 
             </div>
 
@@ -60,13 +64,15 @@ class Counter extends React.Component {
 
     getBadgeClasses() {
         let classes = "badge m-2 badge-";
-        classes += (this.state.count) === 0 ? "warning" : "primary";
+        // classes += (this.state.value) === 0 ? "warning" : "primary";
+        classes += (this.props.counter.value) === 0 ? "warning" : "primary";
         return classes;
     }
 
     formatCounter(){
-        const {count} = this.state;
-        return count === 0 ? <h3>Zero</h3> : count;
+        // const {value} = this.state;
+        const {value} = this.props.counter;
+        return value === 0 ? <h3>Zero</h3> : value;
     }
 }
  
